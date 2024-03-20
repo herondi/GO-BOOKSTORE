@@ -21,7 +21,7 @@ shell
 Copiar
 go build
 ./GO-BOOKSTORE
-Acesse a aplicação em seu navegador da web em http://localhost:8080.
+Acesse a aplicação em seu navegador da web em http://localhost:9010.
 
 🔧 Dependências
 O projeto utiliza as seguintes dependências:
