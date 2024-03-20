@@ -1,7 +1,7 @@
 package models
 
 import (
-	"github.com/akhil/GO-BOOKSTORE/pkg/config"
+	"github.com/herondi/GO-BOOKSTORE/pkg/config"
 	"github.com/jinzhu/gorm"
 )
 
@@ -16,33 +16,33 @@ type Book struct {
 
 func init() {
 	config.Connect()        // Connect to the database
-	db = config.GetDb()     // Get the database instance
+	db = config.GetDB()     // Get the database instance (corrigido para GetDB)
 	db.AutoMigrate(&Book{}) // Automatically migrate the Book struct to create the corresponding table in the database
 }
 
+// CreateBook creates a new book in the database and returns it.
 func (b *Book) CreateBook() *Book {
-
-	db.NewRecord(b) // Check if the record is new or not, If it's a new one then set the flag to true
+	db.NewRecord(b) // Check if the record is new, if it is, set the flag to true
 	db.Create(&b)   // Call the create function on the object
 	return b        // Return the created object back
 }
 
-func GetALLBooks() []Book { 
-	var Books []Book                     // Slice of type Book
-	db.Find(&Books) // Find all books in the database and store them in the variable 'Books'
-	return Books  
+// GetAllBooks returns all books in the database.
+func GetAllBooks() []Book {
+	var books []Book // Slice of books
+	db.Find(&books)  // Find all books in the database and store them in the variable 'books'
+	return books     // Return the books
 }
 
-
-func GetBookById(Id int64) (*Book, *gorm.DB){
-var GetBook Book 
-db:=db.Where("ID=?", Id).Find(&getBook)	// Find a book by its ID in the database
-return &GetBook , db
+// GetBookById returns a book with the provided ID.
+func GetBookById(Id int64) (*Book, *gorm.DB) {
+	var book Book // Initialize a Book variable to store the result
+	db := db.Where("ID=?", Id).Find(&book) // Find a book by its ID in the database
+	return &book, db // Return a pointer to the book and the database connection
 }
 
-func DeleteBook(ID int64){
-	var book Book 
-	db.Where("ID= ? ", ID).Delete(&book) // Delete a book by its ID from the database
-	return book
-	
+// DeleteBook deletes a book with the provided ID.
+func DeleteBook(ID int64) {
+	var book Book // Initialize a Book variable to store the result
+	db.Where("ID= ?", ID).Delete(&book) // Delete a book by its ID from the database
 }
